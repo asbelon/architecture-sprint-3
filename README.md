@@ -1,74 +1,25 @@
-# Базовая настройка
+_Задание 1.1_
 
-## Запуск minikube
+# Текущее состояние
 
-[Инструкция по установке](https://minikube.sigs.k8s.io/docs/start/)
+## Функциональность приложения
 
-```bash
-minikube start
-```
+![Use Cases](./arch/current%20state/Use%20Cases.png)
 
+## Взаимодействие приложения с внешним миром
 
-## Добавление токена авторизации GitHub
+![C4 диаграмма](./arch/current%20state/Context-Heating_Control_System_Context_Diagram.png)
 
-[Получение токена](https://github.com/settings/tokens/new)
+## Архитектура текущего приложения
 
-```bash
-kubectl create secret docker-registry ghcr --docker-server=https://ghcr.io --docker-username=<github_username> --docker-password=<github_token> -n default
-```
+Язык программирования: Java
 
+База данных: PostgreSQL
 
-## Установка API GW kusk
+Архитектура: Все компоненты системынаходятся в рамках одного приложения.
 
-[Install Kusk CLI](https://docs.kusk.io/getting-started/install-kusk-cli)
+Взаимодействие: Синхронное, запросы обрабатываются последовательно.
 
-```bash
-kusk cluster install
-```
+Развертывание: Требует остановки всего приложения.
 
-
-## Настройка terraform
-
-[Установите Terraform](https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-quickstart#install-terraform)
-
-
-Создайте файл ~/.terraformrc
-
-```hcl
-provider_installation {
-  network_mirror {
-    url = "https://terraform-mirror.yandexcloud.net/"
-    include = ["registry.terraform.io/*/*"]
-  }
-  direct {
-    exclude = ["registry.terraform.io/*/*"]
-  }
-}
-```
-
-## Применяем terraform конфигурацию 
-
-```bash
-cd terraform
-terraform apply
-```
-
-## Настройка API GW
-
-```bash
-kusk deploy -i api.yaml
-```
-
-## Проверяем работоспособность
-
-```bash
-kubectl port-forward svc/kusk-gateway-envoy-fleet -n kusk-system 8080:80
-curl localhost:8080/hello
-```
-
-
-## Delete minikube
-
-```bash
-minikube delete
-```
+https://habr.com/ru/companies/usetech/news/676196/

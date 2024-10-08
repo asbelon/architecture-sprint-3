@@ -1,0 +1,25 @@
+@startuml
+
+left to right direction
+
+actor "Пользователь" as User
+actor "Система" as System
+
+rectangle "Приложение" {
+    usecase "включать/выключать отопление" as UC1
+    usecase "устанавить желаемую температуру" as UC2
+    usecase "просматривать текущую температуру" as UC4
+}
+
+rectangle "Датчики и контроллеры" {
+    usecase "устанавливать тепрепатуру" as UC3
+    usecase "получение данных о температуре" as UC5
+}
+
+User --> UC1
+User --> UC2
+User --> UC4
+System --> UC3
+System --> UC5
+
+@enduml
