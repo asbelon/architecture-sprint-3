@@ -6,11 +6,11 @@ _Задание 1.1_
 
 ![Use Cases](./arch/current%20state/Use%20Cases.png)
 
-## Взаимодействие приложения с внешним миром
+## Контекст приложения
 
 ![C4 диаграмма](./arch/current%20state/Context-Heating_Control_System_Context_Diagram.png)
 
-## Архитектура текущего приложения
+## Параметры приложения
 
 Язык программирования: Java
 
@@ -23,3 +23,5 @@ _Задание 1.1_
 Развертывание: Требует остановки всего приложения.
 
 https://habr.com/ru/companies/usetech/news/676196/
+
+https://github.com/plantuml-stdlib/C4-PlantUML

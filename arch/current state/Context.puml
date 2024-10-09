@@ -5,14 +5,21 @@ top to bottom direction
 
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
-Person(user, "Пользователь", "")
-System(HeatingControlSystem, "Система управления отопплением", "Управление пользователями, получение данных от датчиков и управление контроллерами температур")
+Person(user, "Пользователь")
+System(HeatingControlSystem, "Система управления отопплением")
+
+System_Boundary(HeatingControlSystem, "Система управления отопплением") {
+     Container(app, "Приложения", "Java", "Управление пользователями, получение данных от датчиков и управление контроллерами температур")
+     Container(database, "База данных", "Postgres")
+     Rel(app, database, "Сохраняет", "sql")
+     Rel(database, app, "Читает", "sql")
+}
 
 System_Ext(sensor, "Датчик", "Датчик температуры")
 System_Ext(controller, "Контроллер", "Контроллер температуры")
 
-Rel(user, HeatingControlSystem, "Управление отоплением\nМониторинг температуры")
-Rel(HeatingControlSystem,sensor,"Получает данные о температуре")
-Rel(HeatingControlSystem,controller,"Отправляет сигнал об установлении температуры")
+Rel(user, app, "Управление отоплением\nМониторинг температуры")
+Rel(app,sensor,"Получает данные о температуре")
+Rel(app,controller,"Отправляет сигнал об установлении температуры")
 
 @enduml
