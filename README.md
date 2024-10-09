@@ -25,3 +25,7 @@ _Задание 1.1_
 https://habr.com/ru/companies/usetech/news/676196/
 
 https://github.com/plantuml-stdlib/C4-PlantUML
+
+## Домены компании
+
+![Домены](./arch/current%20state/domains-__.png)

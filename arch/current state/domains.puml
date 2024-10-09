@@ -1,0 +1,10 @@
+@startuml
+title Стратегическое проект компании
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Boundary(domain_1,"Управление пользователями", "domain")
+Boundary(domain_2,"Управление температурой", "domain")
+Boundary(domain_3,"Мониторинг температуры", "domain")
+
+@enduml
