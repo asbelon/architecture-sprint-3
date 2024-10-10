@@ -1,0 +1,23 @@
+@startuml
+title Стратегический план развития деятельност компании
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+System_Boundary(HeatingControlSystem, "Система управления домом") {
+    Boundary(domain_1,"Управление пользователями", "domain")
+    Boundary(domain_2,"Управление домом", "domain"){
+        Container(C1, "Управление устройствами", "subdomain") {
+            Component(T1,"Подключение устройств", "context")
+            Component(T2,"Настройка конфигурации устройств", "context")
+        }
+        Container(C2, "Управление сценариями поведения устройств", "subdomain")
+        Container(C3, "Контроль устройств (согласно сценариям)", "subdomain")
+    }
+    Boundary(domain_3,"Мониторинг температуры", "domain") {
+        Container(SensorRegistration, "Подключение датчиков", "subdomain")
+        Container(SensorDataManagement, "Управление данными от датчиков", "subdomain")
+        Container(SensorDataManagement, "Управление конфигурацией мониторинга", "subdomain")
+    }
+}
+
+@enduml

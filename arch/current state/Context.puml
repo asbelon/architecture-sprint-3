@@ -9,7 +9,7 @@ Person(user, "Пользователь")
 System(HeatingControlSystem, "Система управления отопплением")
 
 System_Boundary(HeatingControlSystem, "Система управления отопплением") {
-     Container(app, "Приложения", "Java", "Управление пользователями, получение данных от датчиков и управление контроллерами температур")
+     Container(app, "Приложение", "Java", "Управление пользователями, получение данных от датчиков и управление контроллерами температур")
      Container(database, "База данных", "Postgres")
      Rel(app, database, "Сохраняет", "sql")
      Rel(database, app, "Читает", "sql")
