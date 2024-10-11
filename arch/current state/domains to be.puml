@@ -11,6 +11,7 @@ System_Boundary(HeatingControlSystem, "Система управления до�
         }
         Container(C2, "Мониторинг и телеметрия", "subdomain") {
             Component(T3, "Настройка уведомлений", "context")
+            Component(T4, "Визуализация мониторинга", "context")
         }
     }
     Boundary(domain_2, "Контроль устройств", "domain") {
@@ -21,6 +22,7 @@ System_Boundary(HeatingControlSystem, "Система управления до�
         Container(C6, "Сбор данных", "subdomain")
         Container(C7, "Обработка данных", "subdomain")
     }
+    Boundary(domain_4, "Телеметрия", "domain")
 }
 
 @enduml
