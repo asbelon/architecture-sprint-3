@@ -6,8 +6,8 @@ title Текущая деятельность компании
 System_Boundary(HeatingControlSystem, "Система управления отоплением") {
     Boundary(domain_1,"Управление пользователями", "domain")
     Boundary(domain_2,"Управление отоплением", "domain"){
-        Container(ControllerRegistration, "Регистрация контроллеров", "subdomain")
-        Container(ControllerManagement, "Управление контроллерами", "subdomain")
+        Container(ControllerRegistration, "Регистрация реле", "subdomain")
+        Container(ControllerManagement, "Управление реле", "subdomain")
     }
     Boundary(domain_3,"Мониторинг температуры", "domain") {
         Container(SensorRegistration, "Регистрация датчиков", "subdomain")

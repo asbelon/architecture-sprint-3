@@ -1,22 +1,25 @@
 @startuml
-title Стратегический план развития деятельност компании
+title Стратегический план развития деятельности компании
 
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 System_Boundary(HeatingControlSystem, "Система управления домом") {
-    Boundary(domain_1,"Управление пользователями", "domain")
-    Boundary(domain_2,"Управление домом", "domain"){
+    Boundary(domain_1,"Взаимодействие с пользователем", "domain") {
         Container(C1, "Управление устройствами", "subdomain") {
             Component(T1,"Подключение устройств", "context")
-            Component(T2,"Настройка конфигурации устройств", "context")
+            Component(T2,"Настройка конфигурации и сценария поведения устройств", "context")
         }
-        Container(C2, "Управление сценариями поведения устройств", "subdomain")
-        Container(C3, "Контроль устройств (согласно сценариям)", "subdomain")
+        Container(C2, "Мониторинг и телеметрия", "subdomain") {
+            Component(T3, "Настройка уведомлений", "context")
+        }
     }
-    Boundary(domain_3,"Мониторинг температуры", "domain") {
-        Container(SensorRegistration, "Подключение датчиков", "subdomain")
-        Container(SensorDataManagement, "Управление данными от датчиков", "subdomain")
-        Container(SensorDataManagement, "Управление конфигурацией мониторинга", "subdomain")
+    Boundary(domain_2, "Контроль устройств", "domain") {
+        Container(C3, "Исполнение сценария", "subdomain")
+        Container(C4, "Анализ данных", "subdomain")
+    }
+    Boundary(domain_3, "Управление данными", "domain") {
+        Container(C6, "Сбор данных", "subdomain")
+        Container(C7, "Обработка данных", "subdomain")
     }
 }
 

@@ -1,12 +1,12 @@
 @startuml
-title Heating Control System Context Diagram
+title Система управления отоплением
 
 top to bottom direction
 
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 Person(user, "Пользователь")
-System(HeatingControlSystem, "Система управления отопплением")
+System(HeatingControlSystem, "Система управления отоплением")
 
 System_Boundary(HeatingControlSystem, "Система управления отопплением") {
      Container(app, "Приложение", "Java", "Управление пользователями, получение данных от датчиков и управление контроллерами температур")
