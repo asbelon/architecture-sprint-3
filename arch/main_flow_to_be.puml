@@ -1,0 +1,56 @@
+@startuml
+
+participant "Устройство" as Device
+
+participant "ProxyServer" as ProxyServer
+
+queue Kafka as Kafka
+
+participant DataProcessor as DataProcessor
+database EventStore as EventStore
+database OperationData as OperationData
+
+participant DataAnalysis as DataAnalysis
+database AnalysisDataStore as AnalysisDataStore
+
+participant ScriptExecution as ScriptExecution
+database ScriptDataStore as ScriptDataStore
+
+participant Monitoring as Monitoring
+database MonitoringData as MonitoringData
+
+Device -> ProxyServer ++ : сигнал устройства
+ProxyServer -> Kafka -- : сообщение сигнала \nустройства
+
+activate DataProcessor
+Kafka -> DataProcessor : получение сообщения \nсигнала устройства
+DataProcessor -> EventStore : сохранение события \nпо сигналу
+DataProcessor -> OperationData : запрос сохраненного \nсостояния устройств дома
+OperationData --> DataProcessor :  получение сохраненного \nсостояния устройств дома
+DataProcessor -> DataProcessor : применение данных \nсигнала для модификации \nсостояния устройств \nв рамках дома
+DataProcessor -> Kafka : сообщение состояния устройств дома
+deactivate DataProcessor
+
+
+Kafka -> DataAnalysis ++ : получение сообщения \nсостояния устройств дома
+DataAnalysis -> DataAnalysis : подготвка данных \nмониторинга дома
+DataAnalysis -> AnalysisDataStore : сохранение данных
+DataAnalysis -> Kafka -- : сообщение данных \nмониторинга
+
+Kafka -> Monitoring ++ : получение сообщения \nсостояния устройств дома
+Monitoring -> MonitoringData -- : сохранение состояния \nустройств дома
+
+activate ScriptExecution
+Kafka -> ScriptExecution : получение сообщения \nсостояния устройств дома
+ScriptExecution -> ScriptDataStore : запрос на сценарий дома
+ScriptDataStore --> ScriptExecution :  получение сценария дома
+ScriptExecution -> ScriptExecution : исполнение сценария дома\n формирование сигналов \nк устройствам
+loop
+ScriptExecution -> Kafka : сообщение сигнала \nк устройству
+end
+deactivate ScriptExecution
+
+Kafka -> ProxyServer : получение сообщения \nсигнала к устройству
+ProxyServer -> Device : отправка сигнала \nк устройству
+
+@enduml

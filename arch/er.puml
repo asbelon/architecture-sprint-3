@@ -1,0 +1,73 @@
+@startuml
+
+    map "Пользователь" as User {
+        id:integer => Идентификатор
+        lastName:string => Имя
+        firstName:string => Фамилия
+        middleName:string => Отчество
+        login:string => Логин
+        status:enum => Статус
+    }
+
+    map "Дом" as House {
+        id:integer => Идентификатор
+        name:string => Пользовательское \nнаименование дома
+        user:User => Пользователь
+    }
+    House }o--|| User
+
+    map "Сценарий управления" as Script {
+        id:integer => Идентификатор
+        house:House => Дом
+        data:json => Данные
+    }
+    Script }o--|| House
+
+    map "Модуль" as Module {
+        id:integer => Идентификатор
+        name:string => Наименование
+        description:string => Описание
+    }
+
+    map "Подключенный модуль" as ConnectedModule {
+        house:House => Дом
+        module:Module => Модуль
+        tariff:enum => Тариф
+    }
+    ConnectedModule }o--o| House
+    ConnectedModule }o--o| Module
+
+    map "Устройство" as Device {
+        id:integer => Идентификатор
+        name:string => Наименование
+        serial:string => Серийный номер
+        type:emun => Тип устройства
+        module:Module => Модуль
+        status:enum => Статус
+    }
+    Device ||--|| Module
+
+    map "Данные телеметрии" as TelemetryData {
+        id:integer => Идентификатор
+        device:Device => Устройство
+        data:binary => Данные
+    }
+    TelemetryData }o--|| Device
+
+    map "Событие устройства" as DeviceEvent {
+        id:integer => Идентификатор
+        device:Device => Устройство
+        data:json => Данные
+        created:datatime => Время получения
+    }
+    DeviceEvent }o--|| Device
+
+    map "Состояние устройства" as DeviceState {
+        id:integer => Идентификатор
+        device:Device => Устройство
+        data:json => Данные
+        created:datatime => Время
+    }
+    DeviceState }o--|| Device
+
+@enduml
