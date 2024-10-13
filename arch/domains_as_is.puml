@@ -1,0 +1,18 @@
+@startuml
+title Текущая деятельность компании
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+System_Boundary(HeatingControlSystem, "Система управления отоплением") {
+    Boundary(domain_1,"Управление пользователями", "domain")
+    Boundary(domain_2,"Управление отоплением", "domain"){
+        Container(ControllerRegistration, "Регистрация реле", "subdomain")
+        Container(ControllerManagement, "Управление реле", "subdomain")
+    }
+    Boundary(domain_3,"Мониторинг температуры", "domain") {
+        Container(SensorRegistration, "Регистрация датчиков", "subdomain")
+        Container(SensorDataManagement, "Управление данными от датчиков", "subdomain")
+    }
+}
+
+@enduml

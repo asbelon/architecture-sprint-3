@@ -1,0 +1,145 @@
+asyncapi: '3.0.0'
+info:
+  title: Smart Home Async API
+  version: '1.0.0'
+servers:
+  production:
+    host: api.smarthome.ru
+    protocol: kafka
+
+defaultContentType: application/json
+
+channels:
+  house_state:
+    address: house.state
+    description: топик состояния устройств дома
+    messages:
+      HouseState:
+        $ref: '#/components/messages/HouseState'
+  house_configuration:
+    address: house.configuration
+    description: топик конфигурации устройств дома
+    messages:
+      HouseConfiguration:
+        $ref: '#/components/messages/HouseConfiguration'
+  signals:
+    address: incoming.signal
+    description: топик сигналов устройств
+    messages:
+      Signal:
+        $ref: '#/components/messages/Signal'
+  telemetry:
+    address: telemetry
+    description: топик данных телеметрии
+    messages:
+      TelemetryData:
+        $ref: '#/components/messages/TelemetryData'
+
+operations:
+  sendHouseState:
+    action: send
+    channel:
+      $ref: '#/channels/house_state'
+  sendHouseConfiguration:
+    action: send
+    channel:
+      $ref: '#/channels/house_configuration'
+  sendSignal:
+    action: send
+    channel:
+      $ref: '#/channels/signals'
+  sendTelemetry:
+    action: send
+    channel:
+      $ref: '#/channels/telemetry'
+
+components:
+  messages:
+    TelemetryData:
+      name: TelemetryData
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TelemetryDataPayload'
+    Signal:
+      name: Signal
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SignalPayload'
+    HouseState:
+      name: HouseState
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HouseStatePayload'
+    HouseConfiguration:
+      name: HouseConfiguration
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HouseConfigurationPayload'
+  schemas:
+    TelemetryDataPayload:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          description: Идентификатор устройства
+        data:
+          type: string
+          description: данные телеметрии
+    SignalPayload:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          description: Идентификатор устройства
+        data:
+          type: string
+          description: данные телеметрии
+        created:
+          type: string
+          description: время создания сигнала
+        direction:
+          type: string
+          enum:
+            - outgoing
+            - incoming
+          description: направление сигнала
+    HouseStatePayload:
+      type: object
+      properties:
+        houseId:
+          type: integer
+          description: Идентификатор дома
+        devicelist:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceState'
+        updated:
+          type: string
+          description: время обновления состояния
+    HouseConfigurationPayload:
+      type: object
+      properties:
+        houseId:
+          type: integer
+          description: Идентификатор дома
+        configuration:
+          type: string
+          description: конфигурация устройств дома
+        script:
+          type: string
+          description: сценарий управления дома
+        updated:
+          type: string
+          description: время обновления состояния
+    DeviceState:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          description: Идентификатор устройства
+        data:
+          type: string
+          description: данные телеметрии
+        updated:
+          type: string
+          description: время обновления состояния
