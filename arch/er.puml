@@ -70,4 +70,12 @@
     }
     DeviceState }o--|| Device
 
+    map "Сигнал" as Signal {
+        id:integer => Идентификатор
+        device:Device => Устройство
+        data:json => Данные
+        created:datatime => Время
+    }
+    Signal }o--|| Device
+
 @enduml
