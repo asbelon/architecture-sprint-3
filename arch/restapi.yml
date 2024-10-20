@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Smart Home REST API
+  version: 1.0.0
+servers:
+  - url: https://api.smarthome.ru/api/1.0/
+tags:
+  - name: Interaction with devices
+  - name: Device management
+paths:
+  /signal:
+    post:
+      tags:
+        - Interaction with devices
+      summary: Receiving a signal
+      operationId: receiveSignal
+      requestBody:
+        description: create a signal
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signal'
+        required: true
+      responses:
+        '201':
+          description: Signal received successfully
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: [ ]
+  /device/list:
+    get:
+      tags:
+        - Device management
+      summary: List of user devices
+      operationId: getDeviceList
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: [ ]
+  /device:
+    post:
+      tags:
+        - Device management
+      summary: Adding a device
+      operationId: addDevice
+      requestBody:
+        description: Adding a device
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+        required: true
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: [ ]
+  /device/{deviceId}:
+    put:
+      tags:
+        - Device management
+      summary: Control device
+      operationId: controlDevice
+      parameters:
+        - name: deviceId
+          in: path
+          description: ID of device to control
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Control device
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: [ ]
+
+
+
+components:
+  schemas:
+    Signal:
+      type: object
+      properties:
+        serial:
+          type: string
+          description: Device serial number
+        payload:
+          type: object
+          description: device data in json format
+    Device:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: identifier
+        name:
+          type: string
+          description: Device name
+        serial:
+          type: string
+          description: Device serial number
+        type:
+          description: Type of device
+          type: string
+          enum:
+            - sensor
+            - relay
+            - switch
+        status:
+          description: Status of device
+          type: string
+          enum:
+            - not connected
+            - waiting for connection
+            - on
+            - off
+
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
